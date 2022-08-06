@@ -17,6 +17,11 @@
       state: present
     become: yes
 
+  - name: Creates directory /opt/sonarqube
+    file:
+      path: /opt/sonarqube
+      state: directory
+
   - name: Setup linux goup
     group:
       name: sonar
