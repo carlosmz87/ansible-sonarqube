@@ -10,7 +10,9 @@
     become: yes
   
   - name: Install unzip
-    yum: unzip
+    yum: 
+      name: unzip
+      state: present
     become: yes
 
   - name: Sonar setup management
@@ -44,7 +46,7 @@
       regexp: "RUN_AS_USER"
       line: RUN_AS_USER=sonar
       state: present
-      
+
 
 
 
