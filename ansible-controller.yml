@@ -34,6 +34,8 @@
     file:
       path: /opt/sonarqube
       mode: '775'
+      group: sonar
+      owner: sonar
       state: directory
     become: yes
 
@@ -41,7 +43,7 @@
     unarchive: 
       src: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.5.0.56709.zip
       dest: /opt/sonarqube
-      chowner: sonar
+      owner: sonar
       mode: '775'
       remote_src: yes
     become: yes
