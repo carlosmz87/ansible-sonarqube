@@ -8,4 +8,44 @@
       - sudo amazon-linux-extras install java-openjdk11 -y
       - java -version
     become: yes
+  
+  - name: Install unzip
+    yum: unzip
+    become: yes
+
+  - name: Sonar setup management
+    command: "{{item}}"
+    with_items:
+      - groupadd sonar
+      - useradd sonar -g sonar
+      - passwd sonar
+      - wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.5.0.56709.zip
+      - unzip sonarqube-9.5.0.56709.zip
+      - mv -v sonarqube-9.5.0.56709/* /opt/sonarqube
+      - chown -R sonar:sonar /opt/sonarqube
+      - chmod -R 775 /opt/sonarqube
+    become: yes
+
+  - name: Add directory as environment variable
+    lineinfile:
+      dest: ~/.bashrc
+      line: export SONAR_HOME=/opt/sonarqube
+      state: present 
+
+  - name: Load configuration
+    command: "{{item}}"
+    with_items: 
+      - source ~/.bashrc
+      - echo $SONAR_HOME
+
+  - name: Run as user sonar
+    lineinfile:
+      dest: $SONAR_HOME/bin/linux-x86–64/sonar.sh
+      regexp: "RUN_AS_USER"
+      line: RUN_AS_USER=sonar
+      state: present
+      
+
+
+
 
