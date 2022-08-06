@@ -1,0 +1,11 @@
+-
+ name: Sonarqube install on EC2
+ hosts: localhost
+ tasks:
+  - name: Install JAVA 
+    command: "{{item}}"
+    with_items: 
+      - sudo amazon-linux-extras install java-openjdk11
+      - java -version
+    become: yes
+
