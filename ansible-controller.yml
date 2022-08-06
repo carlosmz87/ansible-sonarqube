@@ -1,6 +1,8 @@
 -
  name: Sonarqube install on EC2
  hosts: localhost
+ vars:
+    password: sonar
  tasks:
   - name: Install JAVA 
     command: "{{item}}"
@@ -25,7 +27,7 @@
     user:
       name: sonar
       group: sonar
-      password: sonar
+      password: "{{ password | password_hash('sha512') }}"
 
 
   - name: Sonar setup management
