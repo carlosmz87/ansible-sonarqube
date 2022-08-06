@@ -5,7 +5,7 @@
   - name: Install JAVA 
     command: "{{item}}"
     with_items: 
-      - sudo amazon-linux-extras install java-openjdk11
+      - sudo amazon-linux-extras install java-openjdk11 -y
       - java -version
     become: yes
 
