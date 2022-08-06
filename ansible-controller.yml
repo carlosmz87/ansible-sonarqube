@@ -20,6 +20,7 @@
   - name: Creates directory /opt/sonarqube
     file:
       path: /opt/sonarqube
+      mode: '775'
       state: directory
 
   - name: Setup linux goup
