@@ -28,6 +28,7 @@
       name: sonar
       group: sonar
       password: "{{ password | password_hash('sha512') }}"
+    become: yes
 
 
   - name: Sonar setup management
