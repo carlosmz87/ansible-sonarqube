@@ -34,7 +34,6 @@
     file:
       path: /opt/sonarqube
       mode: '775'
-      chowner: sonar
       state: directory
     become: yes
 
