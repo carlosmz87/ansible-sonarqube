@@ -5,7 +5,7 @@
   - name: Install JAVA 
     command: "{{item}}"
     with_items: 
-      - sudo amazon-linux-extras install java-openjdk11 -y
+      - amazon-linux-extras install java-openjdk11 -y
       - java -version
     become: yes
   
@@ -15,17 +15,26 @@
       state: present
     become: yes
 
+  - name: Setup linux goup
+    group:
+      name: sonar
+      state: present
+    become: yes
+  
+  - name: Setup linux user
+    user:
+      name: sonar
+      group: sonar
+      password: sonar
+
+
   - name: Sonar setup management
-    command: "{{item}}"
-    with_items:
-      - groupadd sonar
-      - useradd sonar -g sonar
-      - passwd sonar
-      - wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.5.0.56709.zip
-      - unzip sonarqube-9.5.0.56709.zip
-      - mv -v sonarqube-9.5.0.56709/* /opt/sonarqube
-      - chown -R sonar:sonar /opt/sonarqube
-      - chmod -R 775 /opt/sonarqube
+    unarchive: 
+      src: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.5.0.56709.zip
+      dest: /opt/sonarqube
+      chowner: sonar
+      mode: '775'
+      remote_src: yes
     become: yes
 
   - name: Add directory as environment variable
