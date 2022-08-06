@@ -17,12 +17,6 @@
       state: present
     become: yes
 
-  - name: Creates directory /opt/sonarqube
-    file:
-      path: /opt/sonarqube
-      mode: '775'
-      state: directory
-
   - name: Setup linux goup
     group:
       name: sonar
@@ -36,6 +30,13 @@
       password: "{{ password | password_hash('sha512') }}"
     become: yes
 
+  - name: Creates directory /opt/sonarqube
+    file:
+      path: /opt/sonarqube
+      mode: '775'
+      chowner: sonar
+      state: directory
+    become: yes
 
   - name: Sonar setup management
     unarchive: 
