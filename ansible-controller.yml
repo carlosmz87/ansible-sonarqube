@@ -48,15 +48,11 @@
         remote_src: yes
       become: yes
 
-    - name: Setup sonar home environment variable
-      environment:
-        SONAR_HOME: /opt/sonarqube
-      shell: "echo $SONAR_HOME"
 
     - name: Run as user sonar
       lineinfile:
-        dest: $SONAR_HOME/bin/linux-x86–64/sonar.sh
-        regexp: "RUN_AS_USER"
+        dest: /opt/sonarqube/sonarqube-9.5.0.56709/bin/linux-x86-64/sonar.sh
+        regexp: "#RUN_AS_USER="
         line: RUN_AS_USER=sonar
         state: present
       become: yes
