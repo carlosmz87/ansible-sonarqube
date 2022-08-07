@@ -81,7 +81,7 @@
       lineinfile:
         dest: "{{base}}/conf/sonar.properties"
         regexp: "#sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube?currentSchema=my_schema"
-        line: sonar.jdbc.url=jdbc:postgresql://{{rds_endpoint}}
+        line: sonar.jdbc.url=jdbc:postgresql://{{rds_endpoint}}/db_sonarqube
         state: present
       become: yes
 
@@ -97,4 +97,8 @@
         dest: "/etc/sysctl.conf"
         line: fs.file-max=131072
         state: present
+      become: yes
+
+    - name: Update sysctl 
+      command: sysctl -p 
       become: yes
