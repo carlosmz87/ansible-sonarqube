@@ -2,7 +2,10 @@
   name: Sonarqube install on EC2
   hosts: localhost
   vars:
-    password: sonar
+    password: sonar1234
+    base: /opt/sonarqube/sonarqube-9.5.0.56709
+    username: sonar
+    rds_endpoint: lookup('ansible.builtin.vars', 'RDS')
   tasks:
     - name: Install JAVA 
       command: "{{item}}"
@@ -51,7 +54,7 @@
 
     - name: Run as user sonar.sh modify
       lineinfile:
-        dest: /opt/sonarqube/sonarqube-9.5.0.56709/bin/linux-x86-64/sonar.sh
+        dest: "{{base}}/bin/linux-x86-64/sonar.sh"
         regexp: "#RUN_AS_USER="
         line: RUN_AS_USER=sonar
         state: present
@@ -59,20 +62,26 @@
 
     - name: Modify sonar.jdbc.username sonar.properties file
       lineinfile:
-        dest: /opt/sonarqube/sonarqube-9.5.0.56709/conf/sonar.properties
+        dest: "{{base}}/conf/sonar.properties"
         regexp: "#sonar.jdbc.username="
-        line: sonar.jdbc.username=sonar
+        line: sonar.jdbc.username={{username}}
         state: present
       become: yes
     
     - name: Modify sonar.jdbc.password sonar.properties file
       lineinfile:
-        dest: /opt/sonarqube/sonarqube-9.5.0.56709/conf/sonar.properties
+        dest: "{{base}}/conf/sonar.properties"
         regexp: "#sonar.jdbc.password="
         line: sonar.jdbc.password={{password}}
         state: present
       become: yes
     
 
-
-
+    - name: Modify sonar.jdbc.url sonar.properties file 
+      lineinfile:
+        dest: "{{base}}/conf/sonar.properties"
+        regexp: "#sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube?currentSchema=my_schema"
+        line: sonar.jdbc.url=jdbc:postgresql://{{rds_endpoint}}
+        state: present
+      become: yes
+    
