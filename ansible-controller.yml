@@ -48,12 +48,10 @@
         remote_src: yes
       become: yes
 
-    - name: Add directory as environment variable
-      lineinfile:
-        dest: ~/.bashrc
-        line: export SONAR_HOME=/opt/sonarqube
-        state: present
-      become: yes 
+    - name: Setup sonar home environment variable
+      environment:
+        SONAR_HOME: /opt/sonarqube
+      shell: "echo $SONAR_HOME"
 
     - name: Run as user sonar
       lineinfile:
