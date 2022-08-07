@@ -52,13 +52,13 @@
     lineinfile:
       dest: ~/.bashrc
       line: export SONAR_HOME=/opt/sonarqube
-      state: present 
+      state: present
+    become: yes 
 
   - name: Load configuration
-    command: "{{item}}"
-    with_items: 
-      - source ~/.bashrc
-      - echo $SONAR_HOME
+    sudo: no   
+    shell: . /home/username/.bashrc && echo $SONAR_HOME
+  
 
   - name: Run as user sonar
     lineinfile:
@@ -66,6 +66,7 @@
       regexp: "RUN_AS_USER"
       line: RUN_AS_USER=sonar
       state: present
+    become: yes
 
 
 
