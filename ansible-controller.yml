@@ -57,7 +57,9 @@
 
   - name: Load configuration
     sudo: no   
-    shell: . /home/username/.bashrc && echo $SONAR_HOME
+    shell: source /home/username/.bashrc && echo $SONAR_HOME
+    args:
+     executable: /bin/bash
   
 
   - name: Run as user sonar
