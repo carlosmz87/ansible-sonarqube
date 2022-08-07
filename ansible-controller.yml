@@ -84,4 +84,17 @@
         line: sonar.jdbc.url=jdbc:postgresql://{{rds_endpoint}}
         state: present
       become: yes
-    
+
+    - name: Modify vm.max_map_count on /etc/sysctl.conf
+      lineinfile:
+        dest: "/etc/sysctl.conf"
+        line: vm.max_map_count=524288
+        state: present
+      become: yes
+
+    - name: Modify fs.file-max on /etc/sysctl.conf
+      lineinfile:
+        dest: "/etc/sysctl.conf"
+        line: fs.file-max=131072
+        state: present
+      become: yes
