@@ -102,12 +102,11 @@
       command: sysctl -p 
       become: yes
 
-    - name: Run Sonarqube sonar.sh
-      command: "{{item}}"
-      with_items:
-        - cd {{base}}/bin/linux-x86-64
-        - sh sonar.sh start --password-stdin
-      args:
-        stdin: "{{ password }}"
+    - name: Change directory where is sonar.sh
+      command: cd {{base}}/bin/linux-x86-64
+      become: yes
 
-  
+    - name: Run sh sonar.sh start 
+      shell: sh sonar.sh start
+      args:
+        stdin: "{{datasetid_target}}"  
