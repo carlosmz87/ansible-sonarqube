@@ -109,4 +109,4 @@
     - name: Run sh sonar.sh start 
       shell: sh sonar.sh start
       args:
-        stdin: "{{datasetid_target}}"  
+        stdin: "{{password}}"  
