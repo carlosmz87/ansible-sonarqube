@@ -106,6 +106,8 @@
       command: "{{item}}"
       with_items:
         - cd {{base}}/bin/linux-x86-64
-        - sh sonar.sh start
+        - sh sonar.sh start --password-stdin
+      args:
+        stdin: "{{ password }}"
 
   
