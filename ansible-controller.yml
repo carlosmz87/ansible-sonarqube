@@ -80,7 +80,7 @@
       lineinfile:
         dest: "{{base}}/conf/sonar.properties"
         regexp: "#sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube?currentSchema=my_schema"
-        line: "sonar.jdbc.url=jdbc:postgresql://'{{lookup('ansible.builtin.vars', 'RDS')}}'/db_sonarqube"
+        line: "sonar.jdbc.url=jdbc:postgresql://'{{lookup('ansible.builtin.env', 'RDS')}}'/db_sonarqube"
         state: present
       become: yes
 
