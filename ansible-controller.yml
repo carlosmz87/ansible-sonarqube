@@ -5,7 +5,6 @@
     password: sonar1234
     base: /opt/sonarqube/sonarqube-9.5.0.56709
     username: sonar
-    rds_endpoint: lookup('ansible.builtin.vars', 'RDS')
   tasks:
     - name: Install JAVA 
       command: "{{item}}"
@@ -81,7 +80,7 @@
       lineinfile:
         dest: "{{base}}/conf/sonar.properties"
         regexp: "#sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube?currentSchema=my_schema"
-        line: sonar.jdbc.url=jdbc:postgresql://{{rds_endpoint}}/db_sonarqube
+        line: "sonar.jdbc.url=jdbc:postgresql://{{lookup('ansible.builtin.vars', 'RDS')}}/db_sonarqube"
         state: present
       become: yes
 
