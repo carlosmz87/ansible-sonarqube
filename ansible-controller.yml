@@ -102,11 +102,9 @@
       command: sysctl -p 
       become: yes
 
-    - name: Change directory where is sonar.sh
-      command: cd {{base}}/bin/linux-x86-64
-      become: yes
-
-    - name: Run sh sonar.sh start 
+    - name: Change directory where is sonar.sh 
       shell: sh sonar.sh start
       args:
+        chdir: "{{base}}/bin/linux-x86-64"
         stdin: "{{password}}"  
+      become: yes
