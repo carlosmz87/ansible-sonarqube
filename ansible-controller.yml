@@ -101,3 +101,11 @@
     - name: Update sysctl 
       command: sysctl -p 
       become: yes
+
+    - name: Run Sonarqube sonar.sh
+      command: "{{item}}"
+      with_items:
+        - cd {{base}}/bin/linux-x86-64
+        - sh sonar.sh console
+
+  
